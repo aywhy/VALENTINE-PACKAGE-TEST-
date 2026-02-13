@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To Oremi</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root { --accent: #d63384; --soft-pink: #fffafa; }
+        body { margin: 0; background: var(--soft-pink); font-family: 'Montserrat', sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; overflow-x: hidden; }
+        
+        .card { 
+            background: white; padding: 40px; border-radius: 25px; 
+            max-width: 500px; width: 90%; text-align: center; 
+            box-shadow: 0 15px 40px rgba(255,182,193,0.3); 
+            border: 2px solid #ffb6c1; 
+            animation: popIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+            z-index: 10;
+        }
+
+        h1 { font-family: 'Playfair Display', serif; color: var(--accent); margin-bottom: 20px; text-transform: uppercase; font-size: 1.5rem; }
+        p { line-height: 1.8; color: #555; margin-bottom: 15px; font-size: 1.05rem; }
+        .sig { font-weight: 600; color: var(--accent); margin-top: 20px; }
+        
+        @keyframes popIn { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
+        
+        .heart { position: fixed; bottom: -10vh; color: #ffb6c1; animation: floatUp linear forwards; pointer-events: none; }
+        @keyframes floatUp { 0% { transform: translateY(0); opacity: 1; } 100% { transform: translateY(-110vh); opacity: 0; } }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <h1 id="friendGreeting">Happy Valentine’s Day to You Oremiiii</h1>
+        
+        <p>Friendship like ours is not common. It is intentional, supportive, and deeply rooted in trust.</p>
+        <p>Thank you for your honesty, your wisdom, your corrections, your laughter, and your prayers. Thank you for being safe spaces. Thank you for being women of substance.</p>
+        <p>You inspire excellence. You embody grace. You represent strength.</p>
+        <p>May love meet you in its purest forms, clarity, peace, purpose, and divine direction. May your standards never drop and your glow never dim.</p>
+        
+        <p>I celebrate you today and always My Love.</p>
+        <p class="sig">— Oladunjoye Caleb</p>
+    </div>
+
+    <script>
+        // NAME LOGIC: Extracting the first name from the input
+        window.onload = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const fullName = urlParams.get('name');
+            
+            if (fullName) {
+                // Split the name by space and take the last part (usually the first name in your list)
+                // If they enter "Akinwande Ibukunoluwa", this takes "Ibukunoluwa"
+                const nameParts = fullName.trim().split(" ");
+                const firstName = nameParts[nameParts.length - 1].toUpperCase();
+                
+                document.getElementById('friendGreeting').innerText = "Happy Valentine’s Day to You Oremiiii " + firstName;
+            }
+        };
+
+        // FLOATING ICONS
+        setInterval(() => {
+            const h = document.createElement("div"); h.className = "heart"; 
+            h.innerHTML = Math.random() > 0.5 ? "💖" : "✨";
+            h.style.left = Math.random() * 100 + "vw";
+            h.style.animationDuration = (Math.random() * 2 + 3) + "s";
+            document.body.appendChild(h);
+            setTimeout(() => h.remove(), 5000);
+        }, 300);
+    </script>
+</body>
+</html>
