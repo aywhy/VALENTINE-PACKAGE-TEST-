@@ -13,57 +13,69 @@
             font-family: 'Montserrat', sans-serif; 
             background: linear-gradient(135deg, #5a152d, #d4af37); 
             height: 100vh; width: 100vw; display: flex; justify-content: center; align-items: center; 
-            overflow: hidden; transition: background 1.5s ease;
+            overflow: hidden; transition: background 1s ease;
         }
 
+        /* Login Screen */
         .screen { display: none; width: 100%; height: 100%; justify-content: center; align-items: center; position: absolute; padding: 20px; z-index: 5; }
         .active { display: flex; }
 
         .lock-box { 
-            background: rgba(0,0,0,0.5); padding: 40px; border-radius: 20px; 
-            backdrop-filter: blur(15px); width: 100%; max-width: 400px; 
-            text-align: center; color: white; border: 1px solid rgba(255,255,255,0.2);
-            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+            background: rgba(255, 255, 255, 0.1); padding: 40px; border-radius: 20px; 
+            backdrop-filter: blur(15px); width: 100%; max-width: 420px; 
+            text-align: center; border: 1px solid rgba(255,255,255,0.3);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.4);
         }
 
-        .card-scroll-wrapper { 
-            width: 100%; max-width: 550px; max-height: 85vh; 
-            overflow-y: auto; padding: 10px; z-index: 10;
+        /* Improved Text Visibility */
+        .lock-box h1 { 
+            color: #ffffff; text-shadow: 0 2px 10px rgba(0,0,0,0.5); 
+            font-family: 'Playfair Display', serif; font-size: 1.6rem; margin-bottom: 25px; 
+        }
+
+        /* Horizontal Swipe Wrapper */
+        .horizontal-container {
+            display: flex; overflow-x: auto; scroll-snap-type: x mandatory;
+            width: 100vw; height: 100vh; align-items: center; gap: 20px; padding: 0 20px;
             scrollbar-width: none; -ms-overflow-style: none;
         }
-        .card-scroll-wrapper::-webkit-scrollbar { display: none; }
+        .horizontal-container::-webkit-scrollbar { display: none; }
 
         .card { 
-            background: white; padding: 35px; border-radius: 20px; 
-            width: 100%; color: var(--primary); 
-            box-shadow: 0 15px 35px rgba(90, 21, 45, 0.2); 
-            border-top: 6px solid var(--gold); 
-            margin-bottom: 25px;
-            opacity: 0; transform: translateY(30px);
-            animation: fadeInUp 1s ease forwards;
+            scroll-snap-align: center; flex: 0 0 90vw; max-width: 500px;
+            background: rgba(255, 255, 255, 0.95); padding: 35px; border-radius: 20px; 
+            color: var(--primary); box-shadow: 0 15px 35px rgba(0,0,0,0.2); 
+            border-top: 6px solid var(--gold); position: relative;
+            max-height: 80vh; overflow-y: auto;
         }
+
+        /* Glass Style for Special Category */
+        .glass-card { background: rgba(255, 255, 255, 0.6) !important; backdrop-filter: blur(10px); }
+
+        /* Swipe Instruction */
+        #swipeHint {
+            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
+            color: var(--gold); font-weight: bold; font-size: 0.9rem;
+            animation: bounce 2s infinite; display: none; z-index: 20;
+            text-shadow: 0 1px 5px rgba(0,0,0,0.3);
+        }
+
+        @keyframes bounce { 0%, 20%, 50%, 80%, 100% {transform: translateX(-50%) translateY(0);} 40% {transform: translateX(-50%) translateY(-10px);} 60% {transform: translateX(-50%) translateY(-5px);} }
 
         #funmiBackground { 
             position: fixed; top:0; left:0; width:100%; height:100%; 
-            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('funmi.jpg');
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('funmi.jpg');
             background-size: cover; background-position: center; z-index: -1; display: none;
         }
 
-        h1 { font-family: 'Playfair Display', serif; font-size: 1.6rem; margin-bottom: 20px; line-height: 1.3; color: var(--primary); }
-        p { line-height: 1.8; margin-bottom: 15px; font-size: 1.05rem; color: #333; }
-        input { width: 100%; padding: 15px; border-radius: 30px; border: none; margin-bottom: 20px; text-align: center; font-size: 1rem; outline: none; }
-        button { background: var(--gold); color: var(--primary); border: none; padding: 15px 40px; border-radius: 30px; font-weight: bold; cursor: pointer; width: 100%; font-size: 1rem; transition: 0.3s; }
-        button:hover { background: white; transform: scale(1.05); }
-        .signature { margin-top: 20px; font-weight: 600; color: var(--gold); border-top: 1px solid #eee; padding-top: 15px; }
+        h1 { font-family: 'Playfair Display', serif; font-size: 1.5rem; margin-bottom: 20px; color: var(--primary); }
+        p { line-height: 1.7; margin-bottom: 15px; font-size: 1rem; color: #1a1a1a; font-weight: 500; }
+        input { width: 100%; padding: 15px; border-radius: 30px; border: none; margin-bottom: 20px; text-align: center; font-size: 1rem; background: white; }
+        button { background: var(--gold); color: var(--primary); border: none; padding: 15px 40px; border-radius: 30px; font-weight: bold; cursor: pointer; width: 100%; font-size: 1rem; }
+        .signature { margin-top: 20px; font-weight: 600; color: var(--gold); border-top: 1px solid #ddd; padding-top: 15px; }
         .heart { position: fixed; bottom: -10vh; pointer-events: none; animation: floatUp linear forwards; z-index: 1; }
         
         @keyframes floatUp { 0% { transform: translateY(0) rotate(0deg); opacity: 1; } 100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; } }
-        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-
-        @media (max-height: 500px) {
-            .lock-box { padding: 20px; transform: scale(0.85); }
-            .card { padding: 20px; }
-        }
     </style>
 </head>
 <body>
@@ -74,13 +86,14 @@
     <div id="loginScreen" class="screen active">
         <div class="lock-box">
             <h1>A Valentine message from Oladunjoye Caleb to you</h1>
-            <input type="text" id="nameInput" placeholder="Enter your full name...">
+            <input type="text" id="nameInput" placeholder="Enter your full name here...">
             <button onclick="unlock()">Unlock Your Message</button>
         </div>
     </div>
 
     <div id="messageScreen" class="screen">
-        <div class="card-scroll-wrapper" id="cardWrapper"></div>
+        <div id="swipeHint">Swipe left to read more ⮕</div>
+        <div class="horizontal-container" id="cardWrapper"></div>
     </div>
 
     <script>
@@ -88,47 +101,42 @@
             "funmilola": {
                 title: "Happy Valentine’s Day Ms. Funmilola",
                 cards: [
-                    "On this special day, I want to sincerely celebrate you, not just for who you are, but for the new responsibility you have recently stepped into.<br><br>Congratulations once again on your appointment as Assistant HOD. Leadership is not just about position; it is about capacity, character, and trust of which your selection speaks clearly of the value you carry.",
-                    "As you begin this new phase, I pray for wisdom beyond experience, strength beyond pressure, and grace for every decision you will make. May God guide you with clarity, uphold you with peace, and cause your leadership to bear visible fruits.<br><br>Thank you for being willing to serve. Thank you for answering the call to greater responsibility. Please know that you are supported, appreciated, and respected."
+                    "On this special day, I want to sincerely celebrate you, not just for who you are, but for the new responsibility you have recently stepped into.<br><br>Congratulations on your appointment as Assistant HOD. Leadership is about capacity and character, and your selection speaks clearly of the value you carry.",
+                    "As you begin this new phase, I pray for wisdom beyond experience and grace for every decision you will make. May your leadership bear visible fruits.<br><br>Please know that you are supported and respected."
                 ],
-                special: "funmi"
+                isGlass: true, special: "funmi"
             },
             "omisande julianah": {
                 title: "Happy Valentine’s Day, My Precious Mother",
-                cards: ["If love had a face in my life, it would look like you.<br><br>Your sacrifices built the foundation I stand on today. Your prayers guard me in places your voice cannot reach. Your strength carried me long before I learned to stand on my own.", "On this day of love, I pray God rewards you openly for every silent sacrifice. May your days be long, your heart peaceful, and your joy full.<br><br>I love you deeply and honor you always."]
+                cards: ["If love had a face in my life, it would look like you. Your sacrifices built the foundation I stand on today. Your prayers guard me in places your voice cannot reach.", "May God reward you openly for every silent sacrifice. May your days be long, your heart peaceful, and your joy full. I love you deeply and honor you always."]
             },
             "jane doe": {
                 title: "Happy Valentine’s Day, My Love",
-                cards: ["Loving you feels intentional, not accidental. You are not just someone I feel strongly about, you are someone I respect deeply. Your mind, your softness, your strength, your laughter… they all settle gently in my heart.", "You make love feel safe. You make growth feel possible. You make companionship feel divine.<br><br>Thank you for choosing me daily. Thank you for believing in us. I pray our love matures, deepens, and strengthens with time. May we never lose God at the center of us."]
+                cards: ["Loving you feels intentional. You are not just someone I feel strongly about, you are someone I respect deeply. Your mind and softness settle gently in my heart.", "Thank you for choosing me daily. I pray our love matures, deepens, and strengthens with time. May we never lose God at the center of us."]
             },
             "oladunjoye damilola": {
                 title: "Happy Valentine’s Day, Big Sis",
-                cards: ["You have been more than a sister, you’ve been a guide, a silent supporter, and sometimes even a second mother. I admire your strength. I respect your journey.", "Thank you for the advice, the corrections, the encouragement, and even the tough love. It shaped me more than you know. May this season bring you genuine happiness and divine favor."]
+                cards: ["You have been more than a sister; you’ve been a guide and a silent supporter. I admire your strength and respect your journey.", "May this season bring you genuine happiness. You deserve beautiful things and may God grant them to you."]
             },
             "imobighe god'spower": {
                 title: "Happy Valentine’s Day, My Richie",
-                cards: ["Living with someone reveals their true character and I can honestly say I respect the man you are. Thank you for the laughs, the conversations, the understanding, and the space you give when needed.", "May this season bring growth in every area of your life spiritually, financially, mentally. Let’s keep pushing. Greater heights ahead. Cheers brother!!!"]
+                cards: ["Living with someone reveals their character and I respect the man you are. Thank you for the brotherhood and the laughs.", "May this season bring growth in every area of your life. Let’s keep pushing. Greater heights ahead brother!"]
             },
             "oluwadamilola": {
                 title: "Happy Valentine’s Day Sister Dami",
-                cards: ["Today, I sincerely celebrate you for the season you led us. Your leadership left an imprint through your dedication, your structure, your sacrifices, and the way you carried responsibility with dignity.", "I pray that this new phase of your journey brings even greater fulfillment. May the seeds you planted continue to yield results. May God reward your labor openly and elevate you beyond your expectations."]
+                cards: ["Today, I celebrate you for the season you led us. Your leadership left an imprint through dedication, structure, and dignity.", "May this new phase bring even greater fulfillment. May the seeds you planted continue to yield results. God reward your labor."]
             },
             "akorede": {
                 title: "Happy Valentine’s Day Sir Akorede",
-                cards: ["I want to appreciate you today for your steady support and commitment during your time of service. Leadership is often tested in supportive roles, and you handled yours with strength and loyalty.", "I pray that every experience gained in that season translates into greater opportunities ahead. May God enlarge your influence and reward your diligence. With respect and appreciation."]
+                cards: ["I appreciate you today for your steady support. Leadership is often tested in supportive roles, and you handled yours with strength.", "May God reward your diligence. Every experience gained will translate into greater opportunities ahead."]
             },
             "oriade": {
                 title: "Happy Valentine’s Day Sir Oriade",
-                cards: ["Congratulations once again on your appointment as HOD. Stepping into leadership is both an honor and a responsibility, and I believe you have been positioned for such a time as this.", "As you take on this new role, I pray for wisdom, clarity, and strength. May your decisions be guided by insight and your tenure be fruitful and impactful. You are welcomed, respected, and supported."]
+                cards: ["Congratulations on your appointment as HOD. I believe you have been positioned for such a time as this. I pray for wisdom and clarity.", "Leadership thrives where there is vision. I pray this new chapter becomes a defining success for you and the unit."]
             }
         };
 
-        const closeFriendsList = [
-            "akinwande ibukunoluwa", "adegbosin joy", "kolawole promise", 
-            "olaoye praise", "adedapo treasure", "olanipekun faith", 
-            "agunloye promise", "osinaike dorcas", "johnson mercy", 
-            "abimbola adesubomi", "williams sarah"
-        ];
+        const closeFriendsList = ["akinwande ibukunoluwa", "adegbosin joy", "kolawole promise", "olaoye praise", "adedapo treasure", "olanipekun faith", "agunloye promise", "osinaike dorcas", "johnson mercy", "abimbola adesubomi", "williams sarah"];
 
         function unlock() {
             const rawInput = document.getElementById('nameInput').value.trim();
@@ -140,19 +148,29 @@
             let data;
             let greetingTitle = "";
 
-            if (letters[input]) {
-                data = letters[input];
+            // Smart Interchangeable Name Logic
+            const foundKey = Object.keys(letters).find(key => {
+                const parts = key.split(' ');
+                return parts.every(p => input.includes(p));
+            });
+
+            if (foundKey) {
+                data = letters[foundKey];
                 greetingTitle = data.title;
-            } else if (closeFriendsList.some(name => input.includes(name))) {
+            } else if (closeFriendsList.some(name => {
+                const parts = name.split(' ');
+                return parts.every(p => input.includes(p));
+            })) {
                 const firstName = rawInput.split(' ').pop().toUpperCase();
                 greetingTitle = "Happy Valentine’s Day to You Oremiiii " + firstName;
-                data = { cards: ["Friendship like ours is not common. It is intentional, supportive, and deeply rooted in trust. Thank you for your honesty, your wisdom, and your prayers. Thank you for being safe spaces.", "You inspire excellence. You embody grace. You represent strength. May love meet you in its purest forms, clarity, peace, purpose, and divine direction. I celebrate you today and always My Love."] };
+                data = { cards: ["Friendship like ours is intentional and supportive. Thank you for being a safe space.", "May love meet you in its purest forms. I celebrate you today and always My Love."] };
             } else {
                 const formattedName = rawInput.charAt(0).toUpperCase() + rawInput.slice(1);
                 greetingTitle = "Happy Valentine’s Day, Dear " + formattedName;
-                data = { cards: ["Today, I just want to appreciate you intentionally. Thank you for being YOU. Your presence in my life has been a blessing in ways words sometimes struggle to express.", "On this day of love, I pray that you receive the same depth of care and sincerity that you give to others. May your heart be full, your efforts rewarded, and your joy complete. You are valued."] };
+                data = { cards: ["Today, I appreciate you intentionally. Your presence in my life is a blessing.", "May your heart be full and your joy complete. You are valued."] };
             }
 
+            // Screen Switch
             document.getElementById('loginScreen').classList.remove('active');
             document.getElementById('messageScreen').classList.add('active');
 
@@ -160,35 +178,35 @@
                 document.getElementById('funmiBackground').style.display = "block";
                 document.body.style.background = "black";
             } else {
-                document.body.style.background = "#fff5f7";
+                document.body.style.background = "var(--bg)";
             }
 
+            // Show Swipe Hint if more than 1 card
+            if (data.cards.length > 1) document.getElementById('swipeHint').style.display = "block";
+
+            // Inject Horizontal Cards
             const wrapper = document.getElementById('cardWrapper');
             data.cards.forEach((text, index) => {
                 const card = document.createElement('div');
-                card.className = "card";
-                card.style.animationDelay = (index * 0.4) + "s";
+                card.className = `card ${data.isGlass ? 'glass-card' : ''}`;
                 card.innerHTML = `
-                    ${index === 0 ? `<h1>${greetingTitle}</h1>` : ''}
+                    <h1>${index === 0 ? greetingTitle : '...continued'}</h1>
                     <p>${text}</p>
-                    ${index === data.cards.length - 1 ? `<div class="signature">With honor and warm regards,<br>— Oladunjoye Caleb</div>` : ''}
+                    ${index === data.cards.length - 1 ? `<div class="signature">Warm regards,<br>— Oladunjoye Caleb</div>` : ''}
                 `;
                 wrapper.appendChild(card);
             });
         }
 
         function spawnHeart() {
-            const h = document.createElement("div");
-            h.className = "heart";
-            h.innerHTML = Math.random() > 0.5 ? "❤️" : "🫧";
-            h.style.left = Math.random() * window.innerWidth + "px";
-            h.style.color = "rgba(255,255,255,0.5)";
-            h.style.fontSize = (Math.random() * 15 + 12) + "px";
+            const h = document.createElement("div"); h.className = "heart";
+            h.innerHTML = "❤️"; h.style.left = Math.random() * window.innerWidth + "px";
+            h.style.color = "rgba(255,255,255,0.6)"; h.style.fontSize = "15px";
             h.style.animationDuration = (Math.random() * 3 + 4) + "s";
             document.body.appendChild(h);
             setTimeout(() => h.remove(), 6000);
         }
-        setInterval(spawnHeart, 400);
+        setInterval(spawnHeart, 500);
     </script>
 </body>
 </html>
