@@ -4,118 +4,191 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>A Valentine Message | Oladunjoye Caleb</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Montserrat:wght@400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        body {
-            height: 100vh; margin: 0; display: flex; justify-content: center; align-items: center;
-            background: linear-gradient(135deg, #5a152d, #d4af37);
-            font-family: 'Montserrat', sans-serif; color: white; text-align: center; overflow: hidden;
+        :root { --primary: #5a152d; --gold: #d4af37; --bg: #fff5f7; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body { 
+            font-family: 'Montserrat', sans-serif; 
+            background: linear-gradient(135deg, #5a152d, #d4af37); 
+            height: 100vh; width: 100vw; display: flex; justify-content: center; align-items: center; 
+            overflow: hidden; transition: background 1.5s ease;
         }
+
+        .screen { display: none; width: 100%; height: 100%; justify-content: center; align-items: center; position: absolute; padding: 20px; z-index: 5; }
+        .active { display: flex; }
+
         .lock-box { 
-            background: rgba(0,0,0,0.4); padding: 40px; border-radius: 20px; 
-            backdrop-filter: blur(10px); width: 85%; max-width: 400px; 
-            z-index: 10; border: 1px solid rgba(255,255,255,0.2); 
+            background: rgba(0,0,0,0.5); padding: 40px; border-radius: 20px; 
+            backdrop-filter: blur(15px); width: 100%; max-width: 400px; 
+            text-align: center; color: white; border: 1px solid rgba(255,255,255,0.2);
             box-shadow: 0 20px 50px rgba(0,0,0,0.3);
         }
-        h1 { font-family: 'Playfair Display', serif; font-size: 1.6rem; margin-bottom: 25px; line-height: 1.4; }
-        input { 
-            width: 100%; padding: 15px; border-radius: 30px; border: none; 
-            margin-bottom: 20px; outline: none; text-align: center; 
-            font-size: 1rem; box-sizing: border-box; background: rgba(255,255,255,0.9);
+
+        .card-scroll-wrapper { 
+            width: 100%; max-width: 550px; max-height: 85vh; 
+            overflow-y: auto; padding: 10px; z-index: 10;
+            scrollbar-width: none; -ms-overflow-style: none;
         }
-        button { 
-            background: #d4af37; color: #5a152d; border: none; padding: 15px 40px; 
-            border-radius: 30px; font-weight: bold; cursor: pointer; 
-            transition: 0.3s; width: 100%; font-size: 1rem;
+        .card-scroll-wrapper::-webkit-scrollbar { display: none; }
+
+        .card { 
+            background: white; padding: 35px; border-radius: 20px; 
+            width: 100%; color: var(--primary); 
+            box-shadow: 0 15px 35px rgba(90, 21, 45, 0.2); 
+            border-top: 6px solid var(--gold); 
+            margin-bottom: 25px;
+            opacity: 0; transform: translateY(30px);
+            animation: fadeInUp 1s ease forwards;
         }
-        button:hover { transform: scale(1.05); background: white; }
+
+        #funmiBackground { 
+            position: fixed; top:0; left:0; width:100%; height:100%; 
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('funmi.jpg');
+            background-size: cover; background-position: center; z-index: -1; display: none;
+        }
+
+        h1 { font-family: 'Playfair Display', serif; font-size: 1.6rem; margin-bottom: 20px; line-height: 1.3; color: var(--primary); }
+        p { line-height: 1.8; margin-bottom: 15px; font-size: 1.05rem; color: #333; }
+        input { width: 100%; padding: 15px; border-radius: 30px; border: none; margin-bottom: 20px; text-align: center; font-size: 1rem; outline: none; }
+        button { background: var(--gold); color: var(--primary); border: none; padding: 15px 40px; border-radius: 30px; font-weight: bold; cursor: pointer; width: 100%; font-size: 1rem; transition: 0.3s; }
+        button:hover { background: white; transform: scale(1.05); }
+        .signature { margin-top: 20px; font-weight: 600; color: var(--gold); border-top: 1px solid #eee; padding-top: 15px; }
+        .heart { position: fixed; bottom: -10vh; pointer-events: none; animation: floatUp linear forwards; z-index: 1; }
         
-        /* Floating Hearts */
-        .heart { 
-            position: fixed; bottom: -10vh; color: rgba(255, 255, 255, 0.3); 
-            font-size: 20px; user-select: none; pointer-events: none; 
-            animation: floatUp linear forwards; 
-        }
-        @keyframes floatUp { 
-            0% { transform: translateY(0) rotate(0deg); opacity: 1; } 
-            100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; } 
+        @keyframes floatUp { 0% { transform: translateY(0) rotate(0deg); opacity: 1; } 100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; } }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+        @media (max-height: 500px) {
+            .lock-box { padding: 20px; transform: scale(0.85); }
+            .card { padding: 20px; }
         }
     </style>
 </head>
 <body>
 
-    <audio id="valMusic" loop>
-        <source src="music.mp3" type="audio/mpeg">
-    </audio>
+    <div id="funmiBackground"></div>
+    <audio id="valMusic" loop><source src="music.mp3" type="audio/mpeg"></audio>
 
-    <div class="lock-box">
-        <h1>A Valentine message from Oladunjoye Caleb to you</h1>
-        <input type="text" id="nameInput" placeholder="Enter your full name here...">
-        <button onclick="unlock()">Unlock Your Message</button>
+    <div id="loginScreen" class="screen active">
+        <div class="lock-box">
+            <h1>A Valentine message from Oladunjoye Caleb to you</h1>
+            <input type="text" id="nameInput" placeholder="Enter your full name...">
+            <button onclick="unlock()">Unlock Your Message</button>
+        </div>
+    </div>
+
+    <div id="messageScreen" class="screen">
+        <div class="card-scroll-wrapper" id="cardWrapper"></div>
     </div>
 
     <script>
-        const specificFiles = {
-            "funmilola": "Ms. Funmilola.html",
-            "omisande julianah": "Omisande Julianah.html",
-            "julianah omisande": "Omisande Julianah.html",
-            "jane doe": "Jane Doe.html",
-            "doe jane": "Jane Doe.html",
-            "oladunjoye damilola": "Oladunjoye Damilola.html",
-            "damilola oladunjoye": "Oladunjoye Damilola.html",
-            "imobighe god'spower": "Imobighe God'spower.html",
-            "god'spower imobighe": "Imobighe God'spower.html",
-            "oluwadamilola": "Mrs Oluwadamilola.html",
-            "akorede": "Mr Akorede.html",
-            "oriade": "Mr Oriade.html"
+        const letters = {
+            "funmilola": {
+                title: "Happy Valentine’s Day Ms. Funmilola",
+                cards: [
+                    "On this special day, I want to sincerely celebrate you, not just for who you are, but for the new responsibility you have recently stepped into.<br><br>Congratulations once again on your appointment as Assistant HOD. Leadership is not just about position; it is about capacity, character, and trust of which your selection speaks clearly of the value you carry.",
+                    "As you begin this new phase, I pray for wisdom beyond experience, strength beyond pressure, and grace for every decision you will make. May God guide you with clarity, uphold you with peace, and cause your leadership to bear visible fruits.<br><br>Thank you for being willing to serve. Thank you for answering the call to greater responsibility. Please know that you are supported, appreciated, and respected."
+                ],
+                special: "funmi"
+            },
+            "omisande julianah": {
+                title: "Happy Valentine’s Day, My Precious Mother",
+                cards: ["If love had a face in my life, it would look like you.<br><br>Your sacrifices built the foundation I stand on today. Your prayers guard me in places your voice cannot reach. Your strength carried me long before I learned to stand on my own.", "On this day of love, I pray God rewards you openly for every silent sacrifice. May your days be long, your heart peaceful, and your joy full.<br><br>I love you deeply and honor you always."]
+            },
+            "jane doe": {
+                title: "Happy Valentine’s Day, My Love",
+                cards: ["Loving you feels intentional, not accidental. You are not just someone I feel strongly about, you are someone I respect deeply. Your mind, your softness, your strength, your laughter… they all settle gently in my heart.", "You make love feel safe. You make growth feel possible. You make companionship feel divine.<br><br>Thank you for choosing me daily. Thank you for believing in us. I pray our love matures, deepens, and strengthens with time. May we never lose God at the center of us."]
+            },
+            "oladunjoye damilola": {
+                title: "Happy Valentine’s Day, Big Sis",
+                cards: ["You have been more than a sister, you’ve been a guide, a silent supporter, and sometimes even a second mother. I admire your strength. I respect your journey.", "Thank you for the advice, the corrections, the encouragement, and even the tough love. It shaped me more than you know. May this season bring you genuine happiness and divine favor."]
+            },
+            "imobighe god'spower": {
+                title: "Happy Valentine’s Day, My Richie",
+                cards: ["Living with someone reveals their true character and I can honestly say I respect the man you are. Thank you for the laughs, the conversations, the understanding, and the space you give when needed.", "May this season bring growth in every area of your life spiritually, financially, mentally. Let’s keep pushing. Greater heights ahead. Cheers brother!!!"]
+            },
+            "oluwadamilola": {
+                title: "Happy Valentine’s Day Sister Dami",
+                cards: ["Today, I sincerely celebrate you for the season you led us. Your leadership left an imprint through your dedication, your structure, your sacrifices, and the way you carried responsibility with dignity.", "I pray that this new phase of your journey brings even greater fulfillment. May the seeds you planted continue to yield results. May God reward your labor openly and elevate you beyond your expectations."]
+            },
+            "akorede": {
+                title: "Happy Valentine’s Day Sir Akorede",
+                cards: ["I want to appreciate you today for your steady support and commitment during your time of service. Leadership is often tested in supportive roles, and you handled yours with strength and loyalty.", "I pray that every experience gained in that season translates into greater opportunities ahead. May God enlarge your influence and reward your diligence. With respect and appreciation."]
+            },
+            "oriade": {
+                title: "Happy Valentine’s Day Sir Oriade",
+                cards: ["Congratulations once again on your appointment as HOD. Stepping into leadership is both an honor and a responsibility, and I believe you have been positioned for such a time as this.", "As you take on this new role, I pray for wisdom, clarity, and strength. May your decisions be guided by insight and your tenure be fruitful and impactful. You are welcomed, respected, and supported."]
+            }
         };
 
-        const closeFriends = [
+        const closeFriendsList = [
             "akinwande ibukunoluwa", "adegbosin joy", "kolawole promise", 
             "olaoye praise", "adedapo treasure", "olanipekun faith", 
-            "agunloye promise", "osinaike dorcas", "johnson mercy", "abimbola adesubomi", "williams sarah"
+            "agunloye promise", "osinaike dorcas", "johnson mercy", 
+            "abimbola adesubomi", "williams sarah"
         ];
 
         function unlock() {
             const rawInput = document.getElementById('nameInput').value.trim();
             const input = rawInput.toLowerCase();
-            const music = document.getElementById('valMusic');
+            if (!input) return;
 
-            if (!input) {
-                alert("Please enter your name to receive your message!");
-                return;
+            document.getElementById('valMusic').play().catch(() => {});
+
+            let data;
+            let greetingTitle = "";
+
+            if (letters[input]) {
+                data = letters[input];
+                greetingTitle = data.title;
+            } else if (closeFriendsList.some(name => input.includes(name))) {
+                const firstName = rawInput.split(' ').pop().toUpperCase();
+                greetingTitle = "Happy Valentine’s Day to You Oremiiii " + firstName;
+                data = { cards: ["Friendship like ours is not common. It is intentional, supportive, and deeply rooted in trust. Thank you for your honesty, your wisdom, and your prayers. Thank you for being safe spaces.", "You inspire excellence. You embody grace. You represent strength. May love meet you in its purest forms, clarity, peace, purpose, and divine direction. I celebrate you today and always My Love."] };
+            } else {
+                const formattedName = rawInput.charAt(0).toUpperCase() + rawInput.slice(1);
+                greetingTitle = "Happy Valentine’s Day, Dear " + formattedName;
+                data = { cards: ["Today, I just want to appreciate you intentionally. Thank you for being YOU. Your presence in my life has been a blessing in ways words sometimes struggle to express.", "On this day of love, I pray that you receive the same depth of care and sincerity that you give to others. May your heart be full, your efforts rewarded, and your joy complete. You are valued."] };
             }
 
-            // Start the music
-            music.play().catch(e => console.log("Audio needs user interaction first."));
+            document.getElementById('loginScreen').classList.remove('active');
+            document.getElementById('messageScreen').classList.add('active');
 
-            // Short delay to allow music to start before page jump
-            setTimeout(() => {
-                if (specificFiles[input]) {
-                    window.location.href = specificFiles[input];
-                } 
-                else if (closeFriends.some(name => input.includes(name))) {
-                    // Pass name to Close Friends for "Oremiiii [NAME]" tweak
-                    window.location.href = "Close Friends.html?name=" + encodeURIComponent(rawInput);
-                } 
-                else {
-                    // Pass name to General.html
-                    window.location.href = "General.html?name=" + encodeURIComponent(rawInput);
-                }
-            }, 300);
+            if (data.special === "funmi") {
+                document.getElementById('funmiBackground').style.display = "block";
+                document.body.style.background = "black";
+            } else {
+                document.body.style.background = "#fff5f7";
+            }
+
+            const wrapper = document.getElementById('cardWrapper');
+            data.cards.forEach((text, index) => {
+                const card = document.createElement('div');
+                card.className = "card";
+                card.style.animationDelay = (index * 0.4) + "s";
+                card.innerHTML = `
+                    ${index === 0 ? `<h1>${greetingTitle}</h1>` : ''}
+                    <p>${text}</p>
+                    ${index === data.cards.length - 1 ? `<div class="signature">With honor and warm regards,<br>— Oladunjoye Caleb</div>` : ''}
+                `;
+                wrapper.appendChild(card);
+            });
         }
 
-        // Floating Hearts Logic
-        setInterval(() => {
-            const heart = document.createElement("div");
-            heart.className = "heart";
-            heart.innerHTML = Math.random() > 0.5 ? "❤️" : "🫧";
-            heart.style.left = Math.random() * 100 + "vw";
-            heart.style.animationDuration = (Math.random() * 3 + 4) + "s";
-            document.body.appendChild(heart);
-            setTimeout(() => heart.remove(), 6000);
-        }, 400);
+        function spawnHeart() {
+            const h = document.createElement("div");
+            h.className = "heart";
+            h.innerHTML = Math.random() > 0.5 ? "❤️" : "🫧";
+            h.style.left = Math.random() * window.innerWidth + "px";
+            h.style.color = "rgba(255,255,255,0.5)";
+            h.style.fontSize = (Math.random() * 15 + 12) + "px";
+            h.style.animationDuration = (Math.random() * 3 + 4) + "s";
+            document.body.appendChild(h);
+            setTimeout(() => h.remove(), 6000);
+        }
+        setInterval(spawnHeart, 400);
     </script>
 </body>
 </html>
-
